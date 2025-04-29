@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Text, Platform } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Text, Platform, ScrollView } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Filter } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
@@ -138,86 +138,84 @@ export default function SearchScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
-        {!searchQuery ? (
-          <>
-            <RecentSearches
-              searches={recentSearches}
-              onSearchPress={handleSearchItemPress}
-              onClearPress={handleClearSearchItem}
-              onClearAll={handleClearAllSearches}
-            />
-            
-            <PopularSearches
-              items={popularSearches}
-              onItemPress={(item) => handleSearchItemPress(item as string)}
-            />
-            
-            <PopularSearches
-              title="Trending Products"
-              items={products.slice(0, 4)}
-              isProducts={true}
-              onItemPress={(item) => router.push(`/product/${(item as any).id}`)}
-            />
-            
-            <FarmerList
-              title="Farmers in Your Area"
-              farmers={farmers}
-              onSeeAllPress={() => router.push('/farmers')}
-            />
-          </>
-        ) : (
-          <>
-            <View style={styles.filterContainer}>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity 
-                  style={[
-                    styles.filterChip,
-                    filters.sortBy !== 'price_asc' && styles.filterChipActive,
-                  ]}
-                  onPress={() => setShowFilters(true)}
-                >
-                  <Text style={styles.filterChipText}>Sort by</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[
-                    styles.filterChip,
-                    filters.availability && styles.filterChipActive,
-                  ]}
-                  onPress={() => setShowFilters(true)}
-                >
-                  <Text style={styles.filterChipText}>Availability</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[
-                    styles.filterChip,
-                    filters.organic && styles.filterChipActive,
-                  ]}
-                  onPress={() => setShowFilters(true)}
-                >
-                  <Text style={styles.filterChipText}>Organic</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[
-                    styles.filterChip,
-                    filters.rating > 0 && styles.filterChipActive,
-                  ]}
-                  onPress={() => setShowFilters(true)}
-                >
-                  <Text style={styles.filterChipText}>Rating</Text>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
-            
-            <ProductList
-              title="Search Results"
-              products={filteredProducts}
-              horizontal={false}
-              onAddToCart={handleAddToCart}
-            />
-          </>
-        )}
-      </ScrollView>
+      {!searchQuery ? (
+        <View style={styles.content}>
+          <RecentSearches
+            searches={recentSearches}
+            onSearchPress={handleSearchItemPress}
+            onClearPress={handleClearSearchItem}
+            onClearAll={handleClearAllSearches}
+          />
+          
+          <PopularSearches
+            items={popularSearches}
+            onItemPress={(item) => handleSearchItemPress(item as string)}
+          />
+          
+          <PopularSearches
+            title="Trending Products"
+            items={products.slice(0, 4)}
+            isProducts={true}
+            onItemPress={(item) => router.push(`/product/${(item as any).id}`)}
+          />
+          
+          <FarmerList
+            title="Farmers in Your Area"
+            farmers={farmers}
+            onSeeAllPress={() => router.push('/farmers')}
+          />
+        </View>
+      ) : (
+        <View style={styles.searchResults}>
+          <View style={styles.filterContainer}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <TouchableOpacity 
+                style={[
+                  styles.filterChip,
+                  filters.sortBy !== 'price_asc' && styles.filterChipActive,
+                ]}
+                onPress={() => setShowFilters(true)}
+              >
+                <Text style={styles.filterChipText}>Sort by</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={[
+                  styles.filterChip,
+                  filters.availability && styles.filterChipActive,
+                ]}
+                onPress={() => setShowFilters(true)}
+              >
+                <Text style={styles.filterChipText}>Availability</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={[
+                  styles.filterChip,
+                  filters.organic && styles.filterChipActive,
+                ]}
+                onPress={() => setShowFilters(true)}
+              >
+                <Text style={styles.filterChipText}>Organic</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={[
+                  styles.filterChip,
+                  filters.rating > 0 && styles.filterChipActive,
+                ]}
+                onPress={() => setShowFilters(true)}
+              >
+                <Text style={styles.filterChipText}>Rating</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+          
+          <ProductList
+            title="Search Results"
+            products={filteredProducts}
+            horizontal={false}
+            onAddToCart={handleAddToCart}
+          />
+        </View>
+      )}
 
       <FilterModal
         visible={showFilters}
@@ -256,6 +254,9 @@ const styles = StyleSheet.create({
     marginLeft: Layout.spacing.xs,
   },
   content: {
+    flex: 1,
+  },
+  searchResults: {
     flex: 1,
   },
   filterContainer: {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Tabs } from 'expo-router';
 import { Platform } from 'react-native';
-import { Chrome as Home, Search, ShoppingCart, User, MessageCircle } from 'lucide-react-native';
+import { Home, Search, ShoppingCart, User, MessageCircle } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 
 export default function TabLayout() {

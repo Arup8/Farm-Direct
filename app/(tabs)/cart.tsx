@@ -57,7 +57,7 @@ export default function CartScreen() {
       </View>
 
       {cartItems.length > 0 ? (
-        <>
+        <View style={styles.content}>
           <FlatList
             data={cartItems}
             renderItem={({ item }) => (
@@ -81,7 +81,7 @@ export default function CartScreen() {
               size="large"
             />
           </View>
-        </>
+        </View>
       ) : (
         <View style={styles.emptyCart}>
           <ShoppingBag size={64} color={Colors.grey[400]} />
@@ -123,6 +123,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Nunito-Bold',
     color: Colors.text.primary,
+  },
+  content: {
+    flex: 1,
   },
   cartList: {
     padding: Layout.spacing.m,
