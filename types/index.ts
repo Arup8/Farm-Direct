@@ -49,6 +49,7 @@ export interface User {
   email: string;
   phone: string;
   image: string;
+  role: string;
   addresses: Address[];
 }
 
