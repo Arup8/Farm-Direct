@@ -9,7 +9,8 @@ import {
   logoutUser, 
   getCurrentUser,
   updateUserDetails,
-  updatePassword
+  updatePassword,
+  setAuthToken
 } from '@/data/api';
 
 // Define the shape of the auth context
@@ -43,6 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const storedUserData = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
         
         if (storedToken && storedUserData) {
+          setAuthToken(storedToken);
           setToken(storedToken);
           setUser(JSON.parse(storedUserData));
           setIsAuthenticated(true);
@@ -72,6 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const clearStorageAndReset = async () => {
     await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
     await AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA);
+    setAuthToken(null);
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);

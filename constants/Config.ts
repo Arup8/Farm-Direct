@@ -3,6 +3,12 @@ export const API_BASE_URL = 'http://192.168.0.4:5000/api/v1'; // For Android emu
 // export const API_BASE_URL = 'http://localhost:5000/api/v1'; // For web
 // export const API_BASE_URL = 'http://YOUR_LOCAL_IP:5000/api/v1'; // For physical device (replace with your computer's IP)
 
+// API Configuration
+export const API_URL = 'http://192.168.0.4:5000/api/v1';
+
+// App Configuration
+export const APP_NAME = 'Farm Direct';
+export const APP_VERSION = '1.0.0';
 
 // Authentication endpoints
 export const AUTH_ENDPOINTS = {

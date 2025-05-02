@@ -1,5 +1,6 @@
 import { AUTH_ENDPOINTS } from '@/constants/Config';
 import { User } from '@/types';
+import { setAuthToken } from '@/utils/api';  // Import from utils/api.ts
 
 // Interface for authentication responses
 interface AuthResponse {
@@ -26,7 +27,14 @@ export const registerUser = async (userData: {
       body: JSON.stringify(userData),
     });
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Set auth token if login successful
+    if (data.success && data.token) {
+      setAuthToken(data.token);
+    }
+    
+    return data;
   } catch (error) {
     console.error('Registration error:', error);
     return {
@@ -50,7 +58,14 @@ export const loginUser = async (userData: {
       body: JSON.stringify(userData),
     });
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Set auth token if login successful
+    if (data.success && data.token) {
+      setAuthToken(data.token);
+    }
+    
+    return data;
   } catch (error) {
     console.error('Login error details:', JSON.stringify(error));
     
@@ -199,4 +214,7 @@ export const updateUserRole = async (
       message: 'Network error occurred while updating user role.',
     };
   }
-}; 
+};
+
+// Export setAuthToken to avoid circular dependencies
+export { setAuthToken }; 
